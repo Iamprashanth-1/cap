@@ -1,0 +1,31 @@
+{
+  "Super_Admin_Access_Token" : "exlhackathon",
+"AWS_BucketName" : "objectinfo" ,
+"Azure_Storage_Name" : "filesupload" ,
+"GCP_Storage_Name" : "apsers-2b760.appspot.com" ,
+
+"gcp_credentials" : {
+  "type": "service_account",
+  "project_id": "apsers-2b760",
+  "private_key_id": "728f333e6e5a48ac8087030c1972bb943a73fce1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCvRsCE2rZkBT5z\nIvT6VQqAPqSkeIck4nK2OUpAsffrPMzun6DVxQReN9/Uy9m0Lx+MjDS+PvALJexw\nZZ/Prw5Fq1Zk6lmaVJo0kRgwZyBfbSzMzIfp5vd2CaeR4f5oRhPFygOQN+C3O7A5\nevfhUPHAJECD3iCAaDXcy3nWEFxEzrpH11EVu0JNZsbw/91AWyiyGhf7gChUi25x\nDR7nn23UmK3SIkFJm1DHqF9GlRz9+7pq6YFyQcDbQQQuj4vZs9I2OtiRM8UndppY\nFeTfonJSQI8NnbIU8njIp+p7DkZPnpzHp+lT32RAYH3AWhwOUhuoITAcMoWBh1FP\nLW1+xGKPAgMBAAECggEAC6YMmme8smYE0fsTQ+XN9lrzbzjRZnqkPAcPr8AEJX6b\ncgpq0novAaH9/rLzi32MP7d7s98T7fG9xnSCi/dq3+d0rO1EOjUAMJkp/eGErcLg\nNNYs/DcM4CvhFplp4n0xyDXWScnk5diSLCfHfJJ4FphyLzFegJosZjmhpb/dmfb1\nB+I5QQ+t+81ELXJpVX559U2twr57vPrKkckCUuCSDqndvvDDLKBMWTXEuO5w0oRk\n9HjfdgIxz7QTfFdAY7NXTIcXTGe/u13idwXNXXGGuVNZjXjuW/pIPZmbuHYAbaf6\n7pQZ1MeBA8K5yugmOdvCAzXq0hEe9JKnPvndrMCMoQKBgQDgK0GX9oQlXp1+KixG\nF8JuokUR/M10Ph5D57UzYyvXZz2zA9/vyVEkrgGpEJiswu7NK4We3llL3b28Wz07\n1pN7G7ObE2+Iwqw7480LXY7Uhyn+QEHCz+ao++bj4a6iLoGrFaaSIq17XfPKBoIc\nP5hwODbQIE4LQp0X8k8u2/H4oQKBgQDIKjS79LHOSoz7Jmu+5ZpRCqbZ1D9MHVS2\nXFh40nuz3D3F8qQdhSPwlrhgxJFVSMMTdcSxiTOc70uqx7qJ6N6CyDf2FA39924w\nM+irPJwGt7ePm5ObDHc2ZpSSdAIa77AGyuUiH86Pf+bG96aAd+JhO+cU5fFoMKfC\nPr0dib2dLwKBgEsqVfE1iLPbGOYQEA5ksx5TrONOKDn9Bjrwu9KCQ1YT2R1ohDMs\nBthMvGPLG9Z5+oazPDe8CKcmsBMzaMHivkr+S+gIyVJLLGNcjAlukpDyzYLiWuqO\nuaIZ7R6mMt9QxsvuE49Wr2L5auBn9EKylFO0lbSN0H14FaLM7f4hY+5hAoGAYBxD\n7ev0ZEVPpFgybBr7GeavbvCG5BlBT77PjFQkqZwa3S1AuBvxwdfc+DnqPrUNVg66\nPzTN35DXGE2GuClkjg9tL285uLRR6DtEgNQ9ZsxYC1B8c3ps02Y1+IxTZnOoZdqO\nYvA60pRrTyYigJUP0fhdYJ94ZrrWEmLlk4VL0mkCgYEAi8e8zMlwxH9q2ksFK27x\nuGcOoprwuBjT2sKZ4o1sL6xkJR5f/oFHD/4t4d3HZyRaNfZ7OTeEkqbbl8FF1uhZ\nWSaYbxEbUwp8xESxX9KBCJ42nqN/SbHmsDe/Wlh38SsWLCwyalCkT0HFiSZRunIx\nzqtTFVmHgCbGMfT6NaI4IcI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "apsers-2b760@appspot.gserviceaccount.com",
+  "client_id": "",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/apsers-2b760%40appspot.gserviceaccount.com"
+},
+
+
+"postgres_credentials" : {
+  "host" : "queenie.db.elephantsql.com",
+  "port" : 5432,
+  "dbname" : "pnlvqpwn",
+  "username" : "pnlvqpwn",
+  "password" : "pWptNqaADZdt2DGGAnmlohG0u8r9dbAx"
+
+},
+"Azure_connection_url" : "DefaultEndpointsProtocol=https;AccountName=campaigndata;AccountKey=+XG/zmfn/3qRQUH9uHJ5mwk5o65nye6cKvsyD2xxIG08cI1wM0HUWB2TFqIr50uZYks75fGp0J0c+AStcmC4+w==;EndpointSuffix=core.windows.net"
+}
+

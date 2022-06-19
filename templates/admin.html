@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <title>Cloud Agnostic Platform</title>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <link href=
+"https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        rel="stylesheet" />
+    <script src=
+"https://code.jquery.com/jquery-3.1.1.min.js">
+    </script>
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js">
+  </script>
+  </head>
+    <body style="background-color:white;">
+        <div  class="ui container"><br/><br />
+          <h2 class="ui header green">AGNOSTIC PLATFORM</h2>
+          <b>
+  </b>
+          <hr>
+          <br />
+          <strong>ENTER CREDENTIALS BELOW:</strong><br /><br />
+        <form action="/login/admin" method="post" class="ui form" enctype="multipart/form-data">
+            <label for="cloud">Email:</label>
+            <input type="search" name="email" id="login" required >
+            <br><br />
+            <label for="cloud">Password:</label>
+            <input type="password" name="password" id="password" required>
+            <br><br />
+            <button type="submit" class="btn btn-info"  data-toggle="modal" data-target="myMo">Submit</button>
+            
+          </form>
+          
+          <hr>
+        </div>
+        <button type="submit" style="display:none"  id="4321" class="btn btn-info"  data-toggle="modal" data-target="#myModal">Submit</button>
+
+        
+
+        
+        
+
+    </body>
+    <div id="1232" style="display:none" >
+      {{gft}}
+    </div>
+
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">YOUR API KEY</h4>
+        </div>
+        <div class="modal-body">
+          <ul>
+            {% for item in api %}
+                    <li>{{item}}</li>
+                    
+                {% endfor %} 
+              </ul>
+          
+        </div>
+        <div class="modal-footer">
+          <form action="{{url_for('adr')}}" method="post">
+          <button  type="submit" class="btn btn-default" >Close</button>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <script type="text/javascript">
+    //valo = document.getElementById("1232").textContent
+    valo = document.getElementById('1232').textContent.split(',')
+    gg = valo[0]
+    if(gg!='undefined'){
+    gg = gg.replace('\n', '');
+    gg = gg.replace("'" , '');
+    gg = gg.replace("'" , '');
+    vd = gg.trim();
+    }
+    if ( vd =='b_click') {
+      ride ='123';
+      document.getElementById("4321").click();
+      // window.onload = function() {
+      //   $("#myModal").modal('show');
+      // };
+      
+  //   $('#myModal').modal({
+  // keyboard: false
+  // window.onload = function() {
+  // var hangoutButton =  document.getElementById("#myModal");
+  // hangoutButton.click();
+  // }
+  
+
+}
+  </script>
+
+</html>
+
+

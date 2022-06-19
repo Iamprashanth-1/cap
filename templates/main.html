@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CLOUD AGNOSTIC PLATFORM</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  
+
+  <!-- Navbar on small screens -->
+  
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-red w3-center" style="padding:128px 16px">
+  <h1 class="w3-margin w3-jumbo">CLOUD AGNOSTIC PLATFORM</h1>
+  <form action="/login" method="post">
+  <button formaction ='/login' type='submit' class="w3-button w3-black w3-padding-large w3-large w3-margin-top">ADMIN LOGIN</button>
+    </form>
+    
+          </form>
+    
+    <button onclick="Check();" type='submit' id="yesCheck" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Have Token Click Here</button>
+        
+    <div id="ifYes" style="display:none"  >
+        <form id='form5' method="post" onsubmit="submitform()">
+        <input type="search" name ='tok' placeholder="Enter Token" id="tokk" class="w3-input padding-large w3-large w3-margin-top" />
+        
+        <button  type='submit' class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Submit</button>
+
+        </form>
+    </div>
+</header>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Multi Cloud File Upload and Download</h1>
+      <h5 class="w3-padding-32"> This RestAPI helps to upload and download file within a multi-cloud provider we can choose any cloud provider for uploading by default the cloud provider will be AWS you can customize the provider
+          </h5>
+
+      <p class="w3-text-grey">One of the most significant benefits of multi-cloud architectures is increased availability and uptime. Businesses can protect themselves from outages and downtime caused by problems with a single provider by using multiple providers. Multi-cloud architectures can also improve performance by distributing traffic across multiple providers.</p>
+    </div>
+
+    <div class="w3-third w3-center">
+      
+      <img src="data:image/png;base64,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" />
+    </div>
+  </div>
+</div>
+
+<!-- Second Grid -->
+<div class="w3-row-padding w3-light w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <img src="data:image/png;base64,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" />
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Multi Cloud</h1>
+      <h5 class="w3-padding-32">The Benefits Of Using A Multi-Cloud Architecture</h5>
+
+      <p class="w3-text-grey">Multi-cloud architectures are becoming more popular as businesses realize the benefits of using multiple providers. A multi-cloud architecture is a cloud computing strategy that uses multiple cloud providers. This can be done for a variety of reasons, such as increasing reliability or reducing costs.
+
+There are several advantages to using a multi-cloud architecture. First, it allows businesses to avoid vendor lock-in. If one provider goes down, your business can still operate using the other providers. Second, it gives you more flexibility in terms of choosing which services to use. You’re not limited to the offerings of just one provider. And third, it can help you save money by allowing you to take advantage of different pricing models from different providers.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center " >  
+  <div class="w3-xlarge w3-padding-32" style="color:black" >
+    <span style="color:black">
+      Made with <i class="fa fa-heart pulse" style="color:red"></i>  </span>
+    
+ </div>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+<script type="text/javascript" language="javascript">
+    function submitform() {
+        vall = document.getElementById("tokk").value;
+        console.log(vall);
+        trs = `/upload_file/${vall}`;
+        console.log(trs);
+      document.getElementById("form5").action = trs;
+      return true;
+    }
+    
+    </script>
+    <script type="text/javascript">
+      window.history.forward();
+      function noBack() {
+          window.history.forward();
+      }
+  </script>
+
+<script type="text/javascript">
+    function Check() {
+        if (document.getElementById('yesCheck').onclick) {
+            document.getElementById('ifYes').style.display = 'block';
+        } 
+        else {
+            document.getElementById('ifYes').style.display = 'none';
+    
+       }
+    }
+    </script>
+
+</body>
+</html>
