@@ -32,3 +32,6 @@
 
 - If User want's to list files that are Uploaded (Request-Type : GET)
     - Example : http://dns/list_files/token
+
+- Flow 
+- ![alt text](http://url/to/img.png
