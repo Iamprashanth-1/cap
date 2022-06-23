@@ -7,7 +7,7 @@ from random import randint
 from multiprocessing import Process
 from threading import Thread
 import datetime
-from flask import send_file ,Response , session
+from flask import send_file ,Response , session ,flash
 #from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 from flask import Flask, request, redirect, jsonify,render_template
@@ -30,11 +30,16 @@ def register():
     if request.method == 'POST':
         admin_token = request.form.get('token')
         email  = request.form.get('email')
+        val ,val_bool= db.admin_check_users(email)
+        if val_bool:
+            return {'message': 'User already exists'}
         password = request.form.get('password')
         salt = uuid.uuid4().hex
+        auth_key = hashlib.sha512(email.encode('utf-8')).hexdigest()
         if admin_token==Super_Admin_Access_Token:
-            db.admin_insert(email,password,salt)
-            return render_template('main.html')
+            db.admin_insert(email,password,salt ,auth_key)
+            flash('Admin Registration Succesfull')
+            return render_template('main.html' ,message = 'Admin Registration Successful')
         return {'message' : 'Registration NOT Allowed'}
 
 @app.route('/upload_file/<token>',methods=['GET', 'POST'])
@@ -46,18 +51,28 @@ def index(token):
 
 @app.route('/login',methods=['GET', 'POST'])
 def login():
-    session['email'] = 'reddy'
     return render_template('admin.html')
 
 @app.route('/login/admin/r/',methods=['GET', 'POST'])
 def adr():
     if request.method == 'POST':
-        return render_template('admin_token.html')
+        auth_token  = request.form.get('auth_key')
+        val , val_bool = db.admin_check_users_with_token(auth_token)
+        if val_bool:
+            #print('received auth token',auth_token)
+            return render_template('admin_token.html' ,auth_token=auth_token)
     return {'message': 'Please Login'}
 @app.route('/login/admin/token' ,methods=['GET', 'POST'])
 def token_login():
     
     if request.method == 'POST':
+        auth_token = request.form.get('auth_key')
+        #print(auth_token)
+        val , val_bool = db.admin_check_users_with_token(auth_token)
+        if not val_bool:
+            print(val)
+            return {'message' : 'Not Authorized'} 
+            
         token = request.form.get('token')
         token_un = token
         if token:
@@ -87,7 +102,7 @@ def token_login():
         
         
 
-        return render_template('admin_token.html' ,data= hashed_token ,url= [url])
+        return render_template('admin_token.html' ,data= hashed_token ,url= url ,auth_token= auth_token)
     
     return {'message' :'Please Login and generate token'}
 
@@ -137,14 +152,15 @@ def token_via_api():
 def admin():
     if request.method == 'POST':
         email = request.form.get('email')
-        session['email'] = 'reddy'
+        session['email'] = email
         password = request.form.get('password')
         salt = uuid.uuid4().hex
         hashed_password = hashlib.sha512(password.encode('utf-8')).hexdigest()
         val ,val_bool = db.admin_validate(email, hashed_password)
         #print(val)
         if val_bool:
-            return render_template('admin.html' , gft='b_click' ,api=[val])
+            #print(val)
+            return render_template('admin.html' , gft='b_click' ,api=[val[0]] ,auth_token =val[-1])
         return {'error' : 'Invalid password or Email'}
     return {'message' : 'Please Login'}
 
@@ -259,7 +275,7 @@ def list_files(token):
         headers=['ID','Cloud_Type','FileName','UploadTime']
         fi = []
         for de in data:
-            fi.append(zip(headers, de))
+            fi.append(dict(zip(headers, de)))
         return {'data' : fi}
     pass
 @app.route('/get_file/<token>' , methods=['GET'])

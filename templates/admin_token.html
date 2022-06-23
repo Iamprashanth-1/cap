@@ -47,6 +47,7 @@
         <br />
         <strong>GENERATE TOKEN BELOW:</strong><br /><br />
         <form action="/login/admin/token" method="post" class="ui form" enctype="multipart/form-data">
+            <input type="hidden" name="auth_key" id="6566">
             <label for="cloud">Email / Username:</label>
             <input type="search" name="token" id="token" required>
             <br><br /><br />
@@ -83,15 +84,17 @@
             <br><br />
             <div id="1232" style="display:none">
                 <ul>
-                    {% for item in url %}
+                    {% if url %}
                     <p>Your GENERATED URL:</p>
                     <li>
+                    <a id ='7834' style="font-weight:bold">
                         <script type="text/javascript">
                             document.write(iop)
-                        </script>{{item}}
+                        </script>{{url}}
+                    </a>
                     </li>
 
-                    {% endfor %}
+                    {% endif %}
                 </ul>
             </div>
             <br><br>
@@ -143,20 +146,19 @@
 </script>
 
 <script type="text/javascript">
+    document.getElementById('6566').value = '{{ auth_token }}'
+    dddd = '{{ auth_token }}'
 
 
     //valo = document.getElementById("1232").textContent
 
-    valo = document.getElementById('1232').textContent.split('?')
-    gg = valo[1]
-    gg = gg.replace('\n', '');
-    gg = gg.replace("'", '');
-    gg = gg.replace("'", '');
-    vd = gg.trim();
-    td = vd.split('=')
+    valo = '{{url}}'
+    td = valo.split('=');    
     if (td[1] != '') {
+        get_file_url = iop+valo
+        document.getElementById('7834').href = get_file_url
 
-        ride = '123';
+        
         document.getElementById("1232").style.display = 'block';
     }
 </script>
