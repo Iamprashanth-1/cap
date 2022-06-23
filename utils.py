@@ -1,29 +1,28 @@
 
-import sqlite3
 import hashlib, uuid
 import boto3
 import psycopg2
-from config import gcp_credentials ,Azure_connection_url
+from config import gcp_credentials ,Azure_connection_url ,s3_client ,s3_resource
 from google.cloud import storage
 
 
 from azure.storage.blob import BlobClient ,BlobServiceClient
-#db = sqlite3.connect('test.db')
+
 
 def upload_to_s3(file_data , bucket_name , file_name):
     #print(file_data , bucket_name, file_name)
     try:
-        s3 = boto3.client('s3')
-        s3.upload_fileobj(file_data, bucket_name, file_name) 
+       
+        s3_client.upload_fileobj(file_data, bucket_name, file_name) 
     except:
-        s3 = boto3.resource('s3')
+        
         content=file_data
-        s3.Object(bucket_name, file_name).put(Body=content)
+        s3_resource.Object(bucket_name, file_name).put(Body=content)
 
 def download_from_s3( bucket_name ,file_name):
     
-    s3 = boto3.client('s3')
-    s3_object = s3.get_object(Bucket=bucket_name, Key=file_name)
+   
+    s3_object = s3_client.get_object(Bucket=bucket_name, Key=file_name)
     return s3_object['Body'].read()
 
 
@@ -32,19 +31,7 @@ def download_from_s3( bucket_name ,file_name):
 def upload_to_gcp(contents ,bucket_name,  destination_file_name):
     """Uploads a file to the bucket."""
     #from oauth2client.service_account import ServiceAccountCredentials
-    import os
-
-
-    # credentials_dict = {
-    #     'type': 'service_account',
-    #     'client_id': os.environ['BACKUP_CLIENT_ID'],
-    #     'client_email': os.environ['BACKUP_CLIENT_EMAIL'],
-    #     'private_key_id': os.environ['BACKUP_PRIVATE_KEY_ID'],
-    #     'private_key': os.environ['BACKUP_PRIVATE_KEY'],
-    # }
-    # cred = ServiceAccountCredentials.from_json_keyfile_dict(
-    #     cred
-    # )
+    
 
     # The ID of your GCS object
     # destination_file_name = "storage-object-name"
@@ -64,11 +51,8 @@ def upload_to_gcp(contents ,bucket_name,  destination_file_name):
     except Exception as e:
         raise Exception(f'Error uploading file {e}')
 
-    print(
-        f"{destination_file_name} with contents {contents} uploaded to {bucket_name}."
-    )
     
-from google.cloud import storage
+    
 
 
 def download_from_gcp(bucket_name, file_name):
@@ -88,11 +72,7 @@ def download_from_gcp(bucket_name, file_name):
     except Exception as e:
         raise Exception(f'Error downloading file {e}')
 
-    print(
-        "Downloaded storage object {} from bucket {} as the following string: {}.".format(
-            file_name, bucket_name, contents
-        )
-    )
+    
 
 def download_from_azure(bucket_name, file_name):
     
