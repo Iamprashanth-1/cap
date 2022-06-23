@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <title>CLOUD AGNOSTIC PLATFORM</title>
@@ -12,9 +13,42 @@
 body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
+
+.alert {
+  
+    padding: 20px;
+    font-size:  35px;
+    background-color: #ffffff;
+    margin-left: 400px;
+    color: rgb(11, 1, 1);
+  }
+  
+  .closebtn {
+    margin-left: 15px;
+    color: rgb(26, 6, 6);
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .closebtn:hover {
+    color: black;
+  }
 </style>
 </head>
 <body>
+
+  {% if  message %}
+  
+
+  <div class="alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+    <strong>Message :</strong> {{ message }}
+  </div>
+  {% endif %}
 
 <!-- Navbar -->
 <div class="w3-top">
@@ -83,6 +117,10 @@ There are several advantages to using a multi-cloud architecture. First, it allo
 
 
 
+
+
+
+
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center " >  
   <div class="w3-xlarge w3-padding-32" style="color:black" >
@@ -114,12 +152,12 @@ function myFunction() {
     }
     
     </script>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
       window.history.forward();
       function noBack() {
           window.history.forward();
       }
-  </script>
+  </script> -->
 
 <script type="text/javascript">
     function Check() {

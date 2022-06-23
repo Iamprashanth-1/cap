@@ -1,6 +1,9 @@
 import boto3 ,json
 s3 = boto3.client('s3')
-s3_object = s3.get_object(Bucket='configinfobucket', Key='cred.json')
+AWS_CONFIG_BUCKET_NAME = 'configinfobucket' 
+AWS_CONFIG_BUCKET_PATH = 'cred.json'
+
+s3_object = s3.get_object(Bucket= AWS_CONFIG_BUCKET_NAME, Key=AWS_CONFIG_BUCKET_PATH)
 config_data = json.loads(s3_object['Body'].read())
 
 ### Loading all details ##

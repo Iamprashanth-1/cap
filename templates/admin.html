@@ -72,6 +72,7 @@
         </div>
         <div class="modal-footer">
           <form action="{{url_for('adr')}}" method="post">
+            <input type="hidden" name="auth_key" id="8976">
           <button  type="submit" class="btn btn-default" >Close</button>
           </form>
         </div>
@@ -80,6 +81,8 @@
     </div>
   </div>
   <script type="text/javascript">
+    document.getElementById('8976').value='{{ auth_token}}'
+    ddd = '{{auth_token }}'
     //valo = document.getElementById("1232").textContent
     valo = document.getElementById('1232').textContent.split(',')
     gg = valo[0]

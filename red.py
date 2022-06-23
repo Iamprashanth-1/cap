@@ -27,11 +27,13 @@ from random import randint
 l = random.randint(1,100000000)
 print(l)
 
-import boto3 ,json
-s3 = boto3.client('s3')
-s3_object = s3.get_object(Bucket='airbuss3bucket', Key='cloud_agnostic/cred.json')
-s = s3_object['Body'].read()
-j = json.loads(s)
-print(j.get('postgres_credentials'))
-#print(s)
-
+# import boto3 ,json
+# s3 = boto3.client('s3')
+# s3_object = s3.get_object(Bucket='airbuss3bucket', Key='cloud_agnostic/cred.json')
+# s = s3_object['Body'].read()
+# j = json.loads(s)
+# print(j.get('postgres_credentials'))
+# #print(s)
+import hashlib
+ggg = hashlib.sha512('abcd###'.encode('utf-8')).hexdigest()
+print(ggg)
