@@ -2,6 +2,7 @@
 import hashlib, uuid
 import boto3
 import psycopg2
+from boto3.s3.transfer import TransferConfig
 from config import gcp_credentials ,Azure_connection_url ,s3_client ,s3_resource
 from google.cloud import storage
 
@@ -11,20 +12,57 @@ from azure.storage.blob import BlobClient ,BlobServiceClient
 
 def upload_to_s3(file_data , bucket_name , file_name):
     #print(file_data , bucket_name, file_name)
+    config = TransferConfig(multipart_threshold=1024*25, max_concurrency=10,
+                        multipart_chunksize=1024*25, use_threads=True)
     try:
        
-        s3_client.upload_fileobj(file_data, bucket_name, file_name) 
+        s3_client.upload_fileobj(file_data, bucket_name, file_name ,Config = config)
     except:
         
         content=file_data
         s3_resource.Object(bucket_name, file_name).put(Body=content)
 
-def download_from_s3( bucket_name ,file_name):
-    
-   
-    s3_object = s3_client.get_object(Bucket=bucket_name, Key=file_name)
-    return s3_object['Body'].read()
+def get_total_bytes(s3 ,bucket_name ,file_path ,prefix):
+    result = s3.list_objects(Bucket=bucket_name ,Prefix=prefix)
+    for item in result['Contents']:
+        if item['Key'] == file_path:
+            return item['Size']
 
+
+def get_object(s3, total_bytes ,bucket_name ,file_path):
+    if total_bytes > 1000000:
+        return get_object_range(s3, total_bytes ,bucket_name ,file_path)
+    return s3.get_object(Bucket=bucket_name, Key=file_path)['Body'].read()
+
+
+def get_object_range(s3, total_bytes ,bucket_name ,file_path):
+    offset = 0
+    while total_bytes > 0:
+        end = offset + 999999 if total_bytes > 1000000 else ""
+        total_bytes -= 1000000
+        byte_range = 'bytes={offset}-{end}'.format(offset=offset, end=end)
+        offset = end + 1 if not isinstance(end, str) else None
+        yield s3.get_object(Bucket=bucket_name, Key=file_path, Range=byte_range)['Body'].read()
+
+
+def download_from_s3( bucket_name ,file_path , file_name):
+    prefix = file_path.split('/')[0]
+    total_bytes = get_total_bytes(s3_client ,bucket_name, file_path ,prefix)
+    if total_bytes > 1000000:
+        return get_object_range(s3_client, total_bytes ,bucket_name ,file_path)
+    return s3_client.get_object(Bucket=bucket_name, Key=file_path)['Body'].read()
+
+    
+#### GCP #################################
+def get_object_range_gcp(blob, total_bytes ):
+    offset = 0
+    while total_bytes > 0:
+        end = offset + 999999 if total_bytes > 1000000 else ""
+        total_bytes -= 1000000
+        byte_range = 'bytes={offset}-{end}'.format(offset=offset, end=end)
+        offset = end + 1 if not isinstance(end, str) else None
+        #yield blob.get_object(Bucket=bucket_name, Key=file_path, Range=byte_range)['Body'].read()
+        yield blob.download_as_string(start=offset,end=end)
 
 
 
@@ -66,19 +104,52 @@ def download_from_gcp(bucket_name, file_name):
         storage_client = storage.Client.from_service_account_info(gcp_credentials)
 
         bucket = storage_client.bucket(bucket_name)
+        bucket_c = storage_client.get_bucket(bucket_name)
+
+        size_in_bytes = bucket_c.get_blob(file_name).size
+        total_bytes = size_in_bytes
         blob = bucket.blob(file_name)
-        contents = blob.download_as_string()
-        return contents
+
+        if total_bytes > 1000000:
+            return get_object_range_gcp(blob, total_bytes)
+        return blob.download_as_string()
+        
     except Exception as e:
         raise Exception(f'Error downloading file {e}')
 
     
+#### AZURE #################################
+
+def get_object_range_azure(blob, total_bytes ):
+    offset = 0
+    while total_bytes > 0:
+        end = offset + 999999 if total_bytes > 1000000 else ""
+        total_bytes -= 1000000
+        byte_range = 'bytes={offset}-{end}'.format(offset=offset, end=end)
+        offset = end + 1 if not isinstance(end, str) else None
+        #yield blob.get_object(Bucket=bucket_name, Key=file_path, Range=byte_range)['Body'].read()
+        yield blob.download_blob(offset=offset ,length=end).readall()
 
 def download_from_azure(bucket_name, file_name):
     
     conn_str=Azure_connection_url
     try:
+        blob_list = BlobServiceClient.from_connection_string(conn_str=conn_str).get_container_client(bucket_name).list_blobs()
+        total_bytes =0
+        for blob in blob_list:
+            if blob.name == file_name:
+                total_bytes = blob.size
+                break
+
         blob = BlobClient.from_connection_string(conn_str=conn_str,container_name=bucket_name, blob_name=file_name)
+        
+            
+        
+        #total_bytes = BlockBlobService.get_blob_properties(conn_str,bucket_name,file_name).properties.content_length
+        #print(total_bytes)
+
+        if total_bytes > 1000000:
+            return get_object_range_azure(blob ,total_bytes)
         data = blob.download_blob().readall()
         return data
     except Exception as e:
@@ -87,9 +158,16 @@ def upload_to_azure(file_data ,bucket_name, file_name):
     
     
     blob_client = BlobClient.from_connection_string(conn_str=Azure_connection_url,container_name=bucket_name, blob_name=file_name)
-
+    chunk_size=10*1024*1024 
     try:
-        blob_client.upload_blob(file_data.read())
+        stream = file_data.readbytes()
+        while True:
+            read_data = stream.read(chunk_size)
+            if not read_data:
+                break 
+            blob_client.append_block(read_data)
+        #blob_client.upload_blob(file_data.read())
+        #blob_client.append_block
         return 'uploaded successfully'
     except:
         blob_client.upload_blob(file_data)

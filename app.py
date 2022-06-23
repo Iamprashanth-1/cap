@@ -300,7 +300,7 @@ def get_file(token):
             bucket_name = dte[3]
             file_path = dte[2]
             if cloud_type.upper()=='AWS':
-                file = download_from_s3(bucket_name, file_path)
+                file = download_from_s3(bucket_name, file_path ,file_name)
             elif cloud_type.upper()=='GCP':
                 file = download_from_gcp(bucket_name, file_path)
             else:
@@ -341,4 +341,4 @@ def get_file(token):
     
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
