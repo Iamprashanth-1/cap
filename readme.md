@@ -43,7 +43,7 @@
             - Form parameters keys :
                 - email : 
                 - password : 
-                - token
+                - token :
 
 ### Admin Access
 
@@ -70,6 +70,8 @@
 
                  parameters : {'CLOUD' :  , 'file':  }
      - Choose respective file for key-value 'file' 
+
+        ( This Image is Just for reference copied from Internet)
     - ![alt text](https://i.stack.imgur.com/GGm4I.png)
 
 
