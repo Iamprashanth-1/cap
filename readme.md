@@ -25,12 +25,12 @@
     python app.py
     ```
 ### Platform Flow   
-- ![alt text](https://github.com/Iamprashanth-1/cap/blob/dev/images/Untitled%20Diagram.drawio.png)
+- ![alt text](https://github.com/Iamprashanth-1/cap/blob/main/images/overall_flow.png)
 ### User Flow  
-- ![alt text](https://github.com/Iamprashanth-1/cap/blob/dev/images/Untitled%20Diagram.drawio.png)
+- ![alt text](https://github.com/Iamprashanth-1/cap/blob/main/images/flow.png)
 
 ### Schema  
-- ![alt text](https://github.com/Iamprashanth-1/cap/blob/dev/images/Untitled%20Diagram.drawio.png)
+- ![alt text](https://github.com/Iamprashanth-1/cap/blob/main/images/schema.png)
 
 
 ### Super Admin Access
@@ -43,7 +43,7 @@
             - Form parameters keys :
                 - email : 
                 - password : 
-                - token
+                - token :
 
 ### Admin Access
 
@@ -70,6 +70,8 @@
 
                  parameters : {'CLOUD' :  , 'file':  }
      - Choose respective file for key-value 'file' 
+
+        ( This Image is Just for reference copied from Internet)
     - ![alt text](https://i.stack.imgur.com/GGm4I.png)
 
 
