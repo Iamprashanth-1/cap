@@ -1,0 +1,253 @@
+{
+	"info": {
+		"_postman_id": "0ee61692-309d-4288-bda3-a0613a0fab3e",
+		"name": "cap_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list all files",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/list_files/6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"list_files",
+						"6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload file",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Prashanth Reddy/Downloads/Capture.JPG"
+						},
+						{
+							"key": "CLOUD",
+							"value": "GCP",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/data/6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"data",
+						"6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get file",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/get_file/6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1?search=Capture.JPG",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"get_file",
+						"6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "Capture.JPG"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Access",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "mpr45@gmail.com",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "test123",
+							"type": "default"
+						},
+						{
+							"key": "token",
+							"value": "exlhackathon",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/super_admin/register",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"super_admin",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Developer Full Access",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/admin/token?api=f6b8deec97424525b8d54bbcd73eaeb3&username=helloworld",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"admin",
+						"token"
+					],
+					"query": [
+						{
+							"key": "api",
+							"value": "f6b8deec97424525b8d54bbcd73eaeb3"
+						},
+						{
+							"key": "username",
+							"value": "helloworld"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Developer Access for Limited time",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/admin/token?api=f6b8deec97424525b8d54bbcd73eaeb3&username=hello_temo&expirydate=2023-06-04 10:42:00",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"admin",
+						"token"
+					],
+					"query": [
+						{
+							"key": "api",
+							"value": "f6b8deec97424525b8d54bbcd73eaeb3"
+						},
+						{
+							"key": "username",
+							"value": "hello_temo"
+						},
+						{
+							"key": "expirydate",
+							"value": "2023-06-04 10:42:00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Developer Access for Single File Access with Limited Time",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/admin/token?api=f6b8deec97424525b8d54bbcd73eaeb3&username=hello_temp_single_filee&expirydate=2023-06-04 10:42:00&filename=meme.png",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"admin",
+						"token"
+					],
+					"query": [
+						{
+							"key": "api",
+							"value": "f6b8deec97424525b8d54bbcd73eaeb3"
+						},
+						{
+							"key": "username",
+							"value": "hello_temp_single_filee"
+						},
+						{
+							"key": "expirydate",
+							"value": "2023-06-04 10:42:00"
+						},
+						{
+							"key": "filename",
+							"value": "meme.png"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
