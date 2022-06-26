@@ -312,7 +312,7 @@ class DB:
     
     def get_objects(self,file_name ,token):
         q = f'''
-        select * from blobstorage where file_name ='{file_name}' and token = '{token}'
+        select * from blobstorage where file_name ='{file_name}' and token = '{token}' order by upload_time desc
         '''
         cursor = self.db.execute(q)
         cc= self.db.fetchall()
