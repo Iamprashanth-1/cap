@@ -25,12 +25,12 @@
     python app.py
     ```
 ### Platform Flow   
-- ![alt text](https://github.com/Iamprashanth-1/cap/blob/dev/images/Untitled%20Diagram.drawio.png)
+- ![alt text](https://github.com/Iamprashanth-1/cap/blob/main/images/overall_flow.png)
 ### User Flow  
-- ![alt text](https://github.com/Iamprashanth-1/cap/blob/dev/images/Untitled%20Diagram.drawio.png)
+- ![alt text](https://github.com/Iamprashanth-1/cap/blob/main/images/flow.png)
 
 ### Schema  
-- ![alt text](https://github.com/Iamprashanth-1/cap/blob/dev/images/Untitled%20Diagram.drawio.png)
+- ![alt text](https://github.com/Iamprashanth-1/cap/blob/main/images/schema.png)
 
 
 ### Super Admin Access
