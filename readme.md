@@ -1,4 +1,7 @@
 # Documention
+
+### Postman Collection Details
+- https://documenter.getpostman.com/view/19885814/UzBsGjHs
 ### How to Run in Local Environment
 - Install Python 3 from https://www.python.org/downloads/
 - Clone the Repository
@@ -77,7 +80,7 @@
 
 
 - If User want's to download a file (Request-Type : GET)
-    - Example : http://127.0.0.1:5000/get_file/token?search='temp.txt'
+    - Example : http://127.0.0.1:5000/get_file/token?search=temp.txt
 
 - If User want's to list files that are Uploaded (Request-Type : GET)
     - Example : http://127.0.0.1:5000/list_files/token
@@ -89,13 +92,18 @@
     - To Upload a file use the snippet below
         ```
         import requests
-        filePath = "/Users/xxx.txt"
-        uploadResultUrl = ''
-        fileFp = open(filePath, 'rb')
-        fileInfoDict = {
-                "file": fileFp,
-            }
-        resp = requests.post(uploadResultUrl, files=fileInfoDict)
+
+        url = "http://127.0.0.1:5000/data/6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1"
+
+        payload={}
+        files=[
+        ('file',('Capture.JPG',open('/C:/Users/Prashanth Reddy/Downloads/Capture.JPG','rb'),'application/octet-stream'))
+        ]
+        headers = {}
+
+        response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+        print(response.text)
             
 
         ```
@@ -104,7 +112,7 @@
         import requests
         ResultUrl = ''
         resp = requests.get(ResultUrl)
-        print(resp.data)
+        print(resp.text)
         ```
 
 
@@ -113,73 +121,51 @@
     - To Upload a file use the snippet below :
 
         ```
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost uploadFile = new HttpPost("http://127.0.0.1:5000/data/token");
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addTextBody("CLOUD", "AWS", ContentType.TEXT_PLAIN);
-
-        // This attaches the file to the POST:
-        File f = new File("[/path/to/upload]");
-        builder.addBinaryBody(
-            "file",
-            new FileInputStream(f),
-            ContentType.APPLICATION_OCTET_STREAM,
-            f.getName()
-        );
-
-        HttpEntity multipart = builder.build();
-        uploadFile.setEntity(multipart);
-        CloseableHttpResponse response = httpClient.execute(uploadFile);
-        HttpEntity responseEntity = response.getEntity();
+        OkHttpClient client = new OkHttpClient().newBuilder()
+            .build();
+            MediaType mediaType = MediaType.parse("text/plain");
+            RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("file","Capture.JPG",
+                RequestBody.create(MediaType.parse("application/octet-stream"),
+                new File("/C:/Users/Prashanth Reddy/Downloads/Capture.JPG")))
+            .addFormDataPart("CLOUD","GCP")
+            .build();
+            Request request = new Request.Builder()
+            .url("http://127.0.0.1:5000/data/6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1")
+            .method("POST", body)
+            .build();
+            Response response = client.newCall(request).execute();
         ```
     - To Download a file use the snippet below:
         ```
-        GetMethod get = new GetMethod("http://httpcomponents.apache.org");
-        
-        InputStream in = get.getResponseBodyAsStream();
-        
-        get.releaseConnection();
+        OkHttpClient client = new OkHttpClient().newBuilder()
+        .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
+        Request request = new Request.Builder()
+        .url("http://127.0.0.1:5000/get_file/6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1?search=Capture.JPG")
+        .method("GET", body)
+        .build();
+        Response response = client.newCall(request).execute();
         ```
 
 - ### C#
     - To Upload a file use the snippet below :
 
         ```
-        public UploadResult UploadFile(string  fileAddress)
-        {
-            HttpClient client = new HttpClient();
-
-            MultipartFormDataContent form = new MultipartFormDataContent();
-            HttpContent content = new StringContent("CLOUD");
-            form.Add(content, "AWS");       
-            var stream = new FileStream(fileAddress, FileMode.Open);            
-            content = new StreamContent(stream);
-            var fileName = 
-            content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-            {
-                Name = "file",
-                FileName = Path.GetFileName(fileAddress),                 
-            };
-            form.Add(fileName, content);
-            HttpResponseMessage response = null;          
-
-            var url = new Uri("http://127.0.0.1:5000/data/token");
-            response = (client.PostAsync(url, form)).Result;          
-
-        }
+            var client = new RestClient("http://127.0.0.1:5000/data/6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1");
+        client.Timeout = -1;
+        var request = new RestRequest(Method.POST);
+        request.AddFile("file", "/C:/Users/Prashanth Reddy/Downloads/Capture.JPG");
+        request.AddParameter("CLOUD", "GCP");
+        IRestResponse response = client.Execute(request);
+        Console.WriteLine(response.Content);
         ```
     - To Download a file use the snippet below :
         ```
-            public async Task<string> GetAsync(string uri)
-                {
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-                    request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-                    using(HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-                    using(Stream stream = response.GetResponseStream())
-                    using(StreamReader reader = new StreamReader(stream))
-                    {
-                        return await reader.ReadToEndAsync();
-                    }
-                }
+            var client = new RestClient("http://127.0.0.1:5000/get_file/6bf9d290957e02a187926cffbfe2bea0af7c56b2161bdda73ee9f5fe9c1666e1?search=Capture.JPG");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
+            IRestResponse response = client.Execute(request);
+            Console.WriteLine(response.Content);
         ```

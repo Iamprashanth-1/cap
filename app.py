@@ -66,17 +66,25 @@ def adr():
 def token_login():
     
     if request.method == 'POST':
+        
+        
         auth_token = request.form.get('auth_key')
         #print(auth_token)
         val , val_bool = db.admin_check_users_with_token(auth_token)
         if not val_bool:
-            print(val)
+            
             return {'message' : 'Not Authorized'} 
             
         token = request.form.get('token')
+        tk,tk_bool = db.validate_token_user_name(token)
+        #print(tk,tk_bool)
+        if tk_bool:
+          #  print(tk,tk_bool)
+            return render_template('admin_token.html' ,user_name_exists='User Name or Email Already Exists',auth_token= auth_token)
+
         token_un = token
-        if token:
-            token +=str(randint(1,100000000))
+        # if token:
+        #     token +=str(randint(1,100000000))
         file_name  = request.form.get('file_name')
         g = request.form.get('startDate' ,'2099-06-04 10:42')
         
@@ -102,7 +110,7 @@ def token_login():
         
         
 
-        return render_template('admin_token.html' ,data= hashed_token ,url= url ,auth_token= auth_token)
+        return render_template('admin_token.html' , message="Token Generated Succesfully",data= hashed_token ,url= url ,auth_token= auth_token )
     
     return {'message' :'Please Login and generate token'}
 
@@ -114,8 +122,12 @@ def token_via_api():
         if dt_bool:
             token = request.args.get('username')
             token_un = token
-            if token:
-                token +=str(randint(1,100000000))
+            tk ,tk_bool = db.validate_token_user_name(token)
+            if tk_bool:
+                
+                return {'message':'User Name or Email Already Exists'}
+            # if token:
+            #     token +=str(randint(1,100000000))
             g = request.args.get('expirydate' ,'2099-06-04 10:42')
             file_name = request.args.get('filename')
             
@@ -130,8 +142,8 @@ def token_via_api():
             hashed_token = hashlib.sha256(token.encode('utf-8')).hexdigest()
             if file_name:
                 db.insert_to_tokens(token_un , hashed_token ,token_created,g,file_name)
-                url =f'get_file/{hashed_token}?search={file_name}'
-                resp = jsonify({'token':hashed_token ,'expirydate' : g ,'url' : url})
+                url =f'http://host:port/get_file/{hashed_token}?search={file_name}'
+                resp = jsonify({'token':hashed_token ,'expirydate' : g ,'url' : url ,'tip':'Please Replace host and port w.r.t to your host and port'})
                 resp.status_code = 201
 
                 return resp
@@ -341,4 +353,4 @@ def get_file(token):
     
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
