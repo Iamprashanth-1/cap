@@ -1,9 +1,20 @@
 import boto3 ,json
-s3 = boto3.client('s3')
+
+## ADD Secret key below ###
+aws_access_key_id = ''
+aws_secret_access_key = ''
+
+
+if aws_access_key_id and aws_secret_access_key:
+    s3_client = boto3.client('s3',aws_access_key_id=aws_access_key_id ,aws_secret_access_key=aws_secret_access_key)
+    s3_resource = boto3.client('s3',aws_access_key_id=aws_access_key_id ,aws_secret_access_key=aws_secret_access_key)
+else:
+    s3_client = boto3.client('s3')
+    s3_resource = boto3.resource('s3')
 AWS_CONFIG_BUCKET_NAME = 'configinfobucket' 
 AWS_CONFIG_BUCKET_PATH = 'cred.json'
 
-s3_object = s3.get_object(Bucket= AWS_CONFIG_BUCKET_NAME, Key=AWS_CONFIG_BUCKET_PATH)
+s3_object = s3_client.get_object(Bucket= AWS_CONFIG_BUCKET_NAME, Key=AWS_CONFIG_BUCKET_PATH)
 config_data = json.loads(s3_object['Body'].read())
 
 ### Loading all details ##
