@@ -204,7 +204,7 @@ class DB:
                 user_name varchar(100),
                 token varchar(255),
                 token_created_date timestamp,
-                token_expiry_data timestamp,
+                token_expiry_date timestamp,
                 single_file varchar(255),
 
                 Primary key(id)
@@ -218,25 +218,37 @@ class DB:
         except:
             return 'Failed to create'
     
-    def insert_to_tokens(self, user_name , token , token_created_date ,token_expiry_data ,single_file='ALL'):
+    def insert_to_tokens(self, user_name , token , token_created_date ,token_expiry_date ,single_file='ALL'):
         q= f'''
 
-        insert into tokens (user_name ,token , token_created_date ,token_expiry_data ,single_file) values(%s,%s,%s,%s,%s)
+        insert into tokens (user_name ,token , token_created_date ,token_expiry_date ,single_file) values(%s,%s,%s,%s,%s)
+        
         '''
-        self.db.execute(q ,(user_name ,token, token_created_date, token_expiry_data ,single_file))
+        self.db.execute(q ,(user_name ,token, token_created_date, token_expiry_date ,single_file))
         self.con_.commit()
         return 'Inserted successfully'
     
     def validate_token(self , token):
         q= f'''
 
-        select * from tokens where token = '{token}' and LOCALTIMESTAMP < token_expiry_data;
+        select * from tokens where token = '{token}' and LOCALTIMESTAMP < token_expiry_date;
         '''
         cursor = self.db.execute(q )
         cc= self.db.fetchall()
         for row in cc:
             #print(row)
             return row , True
+        return 'Invalid credentials' , False
+    
+    def validate_token_user_name(self , user_name):
+        q= f'''
+
+        select * from tokens where user_name = '{user_name}' and 19800+EXTRACT(EPOCH FROM (LOCALTIMESTAMP - token_created_date  )) >60;
+        '''
+        cursor = self.db.execute(q )
+        cc= self.db.fetchall()
+        if cc:
+            return cc , True
         return 'Invalid credentials' , False
 
 
@@ -357,7 +369,7 @@ class DB:
                 
                     #print(row)
                 return cc , True
-            return 'exists' , False
+            return 'Not exists' , False
         except:
             return None , False
     def admin_validate(self ,user_name ,password):

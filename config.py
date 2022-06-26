@@ -11,6 +11,8 @@ if aws_access_key_id and aws_secret_access_key:
 else:
     s3_client = boto3.client('s3')
     s3_resource = boto3.resource('s3')
+
+    
 AWS_CONFIG_BUCKET_NAME = 'configinfobucket' 
 AWS_CONFIG_BUCKET_PATH = 'cred.json'
 

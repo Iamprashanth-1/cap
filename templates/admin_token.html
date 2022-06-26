@@ -15,6 +15,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js">
@@ -46,10 +47,14 @@
 
         <br />
         <strong>GENERATE TOKEN BELOW:</strong><br /><br />
-        <form action="/login/admin/token" method="post" class="ui form" enctype="multipart/form-data">
+        <form action="/login/admin/token" method="post" class="ui form" enctype="multipart/form-data" id="form123">
             <input type="hidden" name="auth_key" id="6566">
             <label for="cloud">Email / Username:</label>
             <input type="search" name="token" id="token" required>
+            {% if user_name_exists %}
+            <br><br>
+            {{user_name_exists}}
+            {% endif %}
             <br><br /><br />
             <input type="checkbox" onclick="Check();"  value="one" id="yesCheck" style="background-color: black;width:16px;height:16px">
             <strong>Temporary Access </strong>
@@ -74,11 +79,26 @@
             <br><br />
 
             <ul>
+                
+                <!-- <p>YOUR GENERATED TOKEN:</p>
+                <div style="display:inline-block">
+                <li><p id="token_value">{{item}}</p></li>
+                <button style="float: right;height:20px" onclick="copyToClipboard('#token_value')"><i class="fa fa-copy"></i></button>
+                </div> -->
+                
                 {% for item in data %}
-                <p>YOUR GENERATED TOKEN:</p>
-                <li>{{item}}</li>
+                <p>YOUR GENERATED TOKEN:</p><br>
+                <div class="container" style="display: flex; height: 100px;">
+                   
+                    <div style="width: 50%; ">
+                        <li><p style="font-weight: bold;"id="token_value">{{item}}</p></li>
+                    </div>
+                    <div style="flex-grow: 1; ">
+                        <button  onclick="copyToClipboard('#token_value')"><i class="fa fa-copy"></i></button>
 
-                {% endfor %}
+                    </div>
+                    {% endfor %}
+                
             </ul>
 
             <br><br />
@@ -88,10 +108,9 @@
                     <p>Your GENERATED URL:</p>
                     <li>
                     <a id ='7834' style="font-weight:bold">
-                        <script type="text/javascript">
-                            document.write(iop)
-                        </script>{{url}}
+                        
                     </a>
+                    <button  onclick="copyToClipboard('#7834')"><i class="fa fa-copy"></i></button>
                     </li>
 
                     {% endif %}
@@ -109,6 +128,7 @@
 </body>
 
 <script type="text/javascript">
+  
     function Check() {
         var3 = document.getElementById('yesCheck').checked;
         vad5 = document.getElementById('ifYes').style.display;
@@ -121,6 +141,14 @@
 
         }
     }
+
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+        }
 </script>
 
 <script type="text/javascript">
@@ -146,6 +174,7 @@
 </script>
 
 <script type="text/javascript">
+    document.getElementById('form123').reset();
     document.getElementById('6566').value = '{{ auth_token }}'
     dddd = '{{ auth_token }}'
 
@@ -156,7 +185,8 @@
     td = valo.split('=');    
     if (td[1] != '') {
         get_file_url = iop+valo
-        document.getElementById('7834').href = get_file_url
+        document.getElementById("7834").innerHTML = get_file_url;
+        document.getElementById('7834').href = get_file_url;
 
         
         document.getElementById("1232").style.display = 'block';
