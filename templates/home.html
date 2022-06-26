@@ -66,6 +66,7 @@
   </div>
 
   <script type="text/javascript" language="javascript">
+    
     function submitform() {
       vall = window.location.href;
       gg = vall.split('/')
@@ -78,13 +79,15 @@
     };
 
 
-    function downloadFileFromName() {
+    function downloadFileFromName(id_1) {
+      
       vall = window.location.href;
       gg = vall.split('/')
       trs = `/get_file/${gg[4]}`;
       document.getElementById("form5").action = trs;
       
-      document.getElementById("frontend123").value =  document.getElementById("qwer").textContent;
+      document.getElementById("frontend123").value =  document.getElementById(id_1).textContent;
+      //document.getElementById("frontend123").href = vall +'search='+document.getElementById("frontend123").value;
       document.getElementById("form5").submit();
       document.getElementById("frontend123").value = '';
       return true;
@@ -110,12 +113,14 @@
         <th>File Name</th>
         <th>Upload Time</th>
       </tr>
-      {% for id in data %}
+      {% for idr in data %}
       <tr>
-        <td>{{id[0]}}</td>
-        <td>{{id[1]}}</td>
-        <td> <a  href='#' id ='qwer' onclick="downloadFileFromName();" style="font-weight: bold;" >{{id[2]}}</a>  </td>
-        <td>{{id[3]}}</td>
+        <td>{{idr[0]}}</td>
+        <td>{{idr[1]}}</td>
+        
+        <td> <a  href="#" id= "{{ idr[0] }}" onclick="downloadFileFromName('{{idr[0]}}');" style="font-weight: bold;" >{{idr[2]}}</a>  </td>
+        
+        <td>{{idr[3]}}</td>
 
       </tr>
       {% endfor %}
