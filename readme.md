@@ -1,7 +1,10 @@
 # Documention
 
+### Home Page URL 
+- http://ec2-3-80-59-198.compute-1.amazonaws.com:5000/
 ### Postman Collection Details
 - https://documenter.getpostman.com/view/19885814/UzBsGjHs
+- Live Host Name: ec2-3-80-59-198.compute-1.amazonaws.com
 ### How to Run in EC2
 - Clone the repository in any directory
 - move to the directory and hit the below command to install dependencies 
